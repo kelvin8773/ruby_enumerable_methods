@@ -73,7 +73,12 @@ module Enumerable
     return res
   end
 
-  def my_inject
+  def my_inject(initial=0)
+    res = initial
+    for i in 0..self.size-1
+      res = yield(res, self[i])
+    end
+    return res
 
   end
 
@@ -102,13 +107,17 @@ p %w[ant bear cat].my_any?{ |word| word.length >= 4 } #=> true
 ary = [1, 2, 4, 2]
 p ary.my_count{ |x| x%2==0 }                         #=> 3
 
-p [1,2,3,4].my_map{ |i| i*i }                           #=> [1, 4, 9, 16]
+p [1,2,3,4].my_map{ |i| i*i }                        #=> [1, 4, 9, 16]
 
 
-# (5..10).inject { |sum, n| sum + n }            #=> 45
-# (5..10).inject(1) { |product, n| product * n } #=> 151200
-# # find the longest word
-# longest = %w{ cat sheep bear }.inject do |memo, word|
-#    memo.length > word.length ? memo : word
-# end
-# longest                                        #=> "sheep"
+p [5,6,7,8,9,10].my_inject{ |sum, n| sum + n }               #=> 45
+p [5,6,7,8,9,10].my_inject(1){ |product, n| product * n }    #=> 151200
+
+def muptiply_els(arr)
+  arr.my_inject(1){|product, n| product * n}
+end
+
+p muptiply_els([2, 4, 5])            # => 40
+
+
+  
