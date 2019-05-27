@@ -73,17 +73,32 @@ module Enumerable
     return res
   end
 
+  def my_map_p(poc)
+    res = []
+    for i in 0..self.size-1
+      res << poc(self[i])
+    end
+    return res
+  end
+
   def my_inject(initial=0)
     res = initial
     for i in 0..self.size-1
       res = yield(res, self[i])
     end
     return res
-
   end
 
 end
 
+
+=begin
+Test case below ...  
+=end
+
+rescue => exception
+  
+end
 
 [3, 4, 5].my_each {|x| p x }
 
@@ -116,8 +131,9 @@ p [5,6,7,8,9,10].my_inject(1){ |product, n| product * n }    #=> 151200
 def muptiply_els(arr)
   arr.my_inject(1){|product, n| product * n}
 end
-
 p muptiply_els([2, 4, 5])            # => 40
 
+mlt = Proc.new{|x| x*x } 
 
-  
+p [1,2,3,4].my_map_p(&mlt)
+
