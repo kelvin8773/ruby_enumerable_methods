@@ -16,89 +16,54 @@ module Enumerable
 
   def my_select
     res = []
-    for i in 0..self.size-1
-      if yield(self[i])
-          res << self[i]
-      end  
-    end
-    return res
+    self.my_each { |x| res << x if yield(x) }
+    res
   end
 
   def my_all?
-    res = true
-    for i in 0..self.size-1
-      if !yield(self[i])
-          res = false
-      end  
-    end
-    return res
+    self.my_each { |x| return false if !yield(x) }
+    true
   end
-
-  def my_any?
-    res = false
-    for i in 0..self.size-1
-      if yield(self[i])
-          res = true
-      end  
-    end
-    return res
-  end
-
-  def my_none?
-    res = true
-    for i in 0..self.size-1
-      if yield(self[i])
-          res = false
-      end  
-    end
-    return res
-  end
-
-  def my_count
-    res = 0
-    for i in 0..self.size-1
-      if yield(self[i])
-          res += 1
-      end  
-    end
-    return res
-
-  end
-
-  def my_map
-    res = []
-    for i in 0..self.size-1
-      res << yield(self[i])
-    end
-    return res
-  end
-
-  def my_map_p(poc)
-    res = []
-    for i in 0..self.size-1
-      res << poc(self[i])
-    end
-    return res
-  end
-
-  def my_inject(initial=0)
-    res = initial
-    for i in 0..self.size-1
-      res = yield(res, self[i])
-    end
-    return res
-  end
-
-end
-
-
-=begin
-Test case below ...  
-=end
-
-rescue => exception
   
+  def my_any?
+    self.my_each { |x| return true if yield(x) }
+    false 
+  end
+  
+  def my_none?
+    self.my_each { |x| return false if yield(x) }
+    true
+  end
+  
+  def my_count(value=nil)
+    res = 0
+    if value
+      self.my_each { |x| res +=1 if x == value }
+    else
+      self.my_each { |x| res +=1 if yield(x) }
+    end
+    res
+  end
+
+  def my_map(proc=nil)
+    result = []
+    if proc
+      self.my_each{|x| result << proc.call(x)}
+    else 
+      self.my_each{|x| result << yield(x)}
+    end
+    result  
+  end
+
+def my_inject(result=0)
+  self.my_each{|x| result = yield(result, x) }
+  result
 end
+
+
+#  Test case below ...  
+
+
 
 [3, 4, 5].my_each {|x| p x }
 
@@ -119,10 +84,14 @@ p %w[ant bear cat].my_any?{ |word| word.length >= 4 } #=> true
 %w{ant bear cat}.my_none?{ |word| word.length == 5 } #=> true
 %w{ant bear cat}.my_none?{ |word| word.length >= 4 } #=> false
 
-ary = [1, 2, 4, 2]
+ary = [1, 2, 4, 26]
 p ary.my_count{ |x| x%2==0 }                         #=> 3
 
 p [1,2,3,4].my_map{ |i| i*i }                        #=> [1, 4, 9, 16]
+
+mlt = Proc.new{|x| x*x } 
+
+p [1,2,3,4].my_map(&mlt)
 
 
 p [5,6,7,8,9,10].my_inject{ |sum, n| sum + n }               #=> 45
@@ -133,7 +102,4 @@ def muptiply_els(arr)
 end
 p muptiply_els([2, 4, 5])            # => 40
 
-mlt = Proc.new{|x| x*x } 
-
-p [1,2,3,4].my_map_p(&mlt)
 
