@@ -39,11 +39,14 @@ module Enumerable
     res = 0
     if value
       self.my_each { |x| res +=1 if x == value }
-    else
+    elsif block_given?
       self.my_each { |x| res +=1 if yield(x) }
-    end
+    else
+      res = self.size
+    end  
     res
   end
+
 
   def my_map(proc=nil)
     result = []
@@ -55,15 +58,15 @@ module Enumerable
     result  
   end
 
-def my_inject(result=0)
-  self.my_each{|x| result = yield(result, x) }
-  result
+  def my_inject(result=0)
+    self.my_each{|x| result = yield(result, x) }
+    result
+  end
+
 end
 
 
 #  Test case below ...  
-
-
 
 [3, 4, 5].my_each {|x| p x }
 
@@ -86,6 +89,9 @@ p %w[ant bear cat].my_any?{ |word| word.length >= 4 } #=> true
 
 ary = [1, 2, 4, 26]
 p ary.my_count{ |x| x%2==0 }                         #=> 3
+
+p ary.my_count
+
 
 p [1,2,3,4].my_map{ |i| i*i }                        #=> [1, 4, 9, 16]
 
