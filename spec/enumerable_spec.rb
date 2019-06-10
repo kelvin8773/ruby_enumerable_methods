@@ -5,7 +5,10 @@ RSpec.describe Enumerable do
   let(:array2) {[6, 7, 8, 9, 10]}
 
   let(:hash1) {{a:1, b:2, c:3}}
+  let(:hash2) {{1=>[0,1,5], 2=>[4,3,1], 3=>[2,1,8]}}
+
   let(:block1) { proc {|x| x*x }} 
+  let(:block2) {proc {|x| x*2 }}
 
   describe "#my_each" do
     it "return an array itself" do
@@ -33,8 +36,12 @@ RSpec.describe Enumerable do
   end
 
   describe "#my_select" do
-    it "return odd number from an array"
+    it "return odd number from an array" do
       expect(array2.my_select{|x| x % 2 == 0}).to eql([6, 8, 10])
+    end
+
+    it "return nil if empty block given" do
+      expect(array1.my_select{}).to eql([])
     end
   end
 

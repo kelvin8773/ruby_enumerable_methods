@@ -15,24 +15,32 @@ module Enumerable
   end
 
   def my_select
-    res = []
-    self.my_each { |x| res << x if yield(x) }
-    res
+    if block_given?
+      res = []
+      self.my_each { |x| res << x if yield(x) }
+      res
+    end
   end
 
   def my_all?
-    self.my_each { |x| return false if !yield(x) }
-    true
+    if block_given?
+      self.my_each { |x| return false if !yield(x) }
+      true
+    end
   end
   
   def my_any?
-    self.my_each { |x| return true if yield(x) }
-    false 
+    if block_given?
+      self.my_each { |x| return true if yield(x) }
+      false 
+    end
   end
   
   def my_none?
-    self.my_each { |x| return false if yield(x) }
-    true
+    if block_given?
+      self.my_each { |x| return false if yield(x) }
+      true
+    end
   end
   
   def my_count(value=nil)
@@ -70,6 +78,8 @@ def muptiply_els(arr)
 end
 
 # p [1, 2, 3].my_each{|x| x = 2} 
+
+# {1=>[0,1,5], 2=>[4,3,1], 3=>[2,1,8]}.each{|k, v| p v}
 
 # p muptiply_els([2, 4, 5])            # => 40
 
