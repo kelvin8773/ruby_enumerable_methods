@@ -7,11 +7,10 @@ module Enumerable
   end
 
   def my_each_with_index
-    res = []
     for i in 0..self.size-1
-      res << yield(self[i], i)
+       yield(self[i], i)
     end
-    res
+    self
   end
 
   def my_select
@@ -29,11 +28,13 @@ module Enumerable
     end
   end
   
-  def my_any?
-    if block_given?
+  def my_any?(proc=nil)
+    if proc
+      self.my_each {|x| return true if proc.call(x)}
+    elsif block_given?
       self.my_each { |x| return true if yield(x) }
-      false 
     end
+    false 
   end
   
   def my_none?

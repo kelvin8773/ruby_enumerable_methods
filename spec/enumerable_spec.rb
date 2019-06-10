@@ -5,10 +5,12 @@ RSpec.describe Enumerable do
   let(:array2) {[6, 7, 8, 9, 10]}
 
   let(:hash1) {{a:1, b:2, c:3}}
-  let(:hash2) {{1=>[0,1,5], 2=>[4,3,1], 3=>[2,1,8]}}
+  let(:hash2) {{a:"Hello", b:"Hey", c:"Goodbye"}}
 
-  let(:block1) { proc {|x| x*x }} 
-  let(:block2) {proc {|x| x*2 }}
+
+  let(:block1) {proc {|x| x*x }} 
+  let(:block2) {proc {|x| x>18 }} 
+  let(:proc1) { proc {|x| x>=10 }}
 
   describe "#my_each" do
     it "return an array itself" do
@@ -25,25 +27,68 @@ RSpec.describe Enumerable do
   end
 
   describe "#my_each_with_index" do
-    it "return index of an array" do
-      expect(array2.my_each_with_index{|x, index| index}).to eql([0,1,2,3,4])
+    it "return the array itself" do
+      expect(array2.my_each_with_index{|x, index| x = x*2 }).to eql(array2)
     end
 
-    it "return an array itself" do
-      expect(array2.my_each_with_index{|x, index| x}).to eql(array2)
+    it "return index of an array" do
+      index = []
+      array2.my_each_with_index{|x, i| index << i}
+      expect(index).to eql([0,1,2,3,4])
     end
 
   end
 
   describe "#my_select" do
-    it "return odd number from an array" do
+    it "return even number from an array" do
       expect(array2.my_select{|x| x % 2 == 0}).to eql([6, 8, 10])
     end
 
-    it "return nil if empty block given" do
+
+    it "get empty array if empty block given" do
       expect(array1.my_select{}).to eql([])
     end
   end
+
+  describe "#my_all?" do
+    it "return true if they are all postive" do
+      expect(array1.my_all?{|x| x > 0}).to be true
+    end
+
+    # it "work with hash return true if all value's size bigger than 2" do
+    #   expect(hash2.my_all?{|key, value| value.size > 2}).to be true
+    # end
+
+  end
+
+  describe "my_any?" do
+    it "return false if one of them bigger than 5" do
+      expect(array1.my_any?{|x| x>5}).to be false
+    end
+
+    it "return true if one of them equal 4" do
+      expect(array1.my_any?{|x| x == 4}).to be true
+    end
+
+    it "return true by using block" do
+      expect(array2.my_any?(proc1)).to be true
+    end
+
+  end
+
+  describe "my_none?" do
+
+    it "return true if none of them are smaller then zero" do
+      expect(array1.my_none?{|x| x < 0}).to be true
+    end
+
+    # it "return true by using block" do
+    #   expect(array1.my_none?{block2}).to be true
+    # end
+
+  end
+
+
 
 
 end
