@@ -6,39 +6,41 @@ module Enumerable
       end
     elsif self.is_a? Hash
       for key in self.keys
-        yield(key self[key])
+        yield(self[key], key)
       end
     end
     self  
   end
 
   def my_each_with_index
-    for i in 0..self.size-1
-       yield(self[i], i)
+    if self.is_a? Array
+      for i in 0..self.size-1
+        yield(self[i],i)
+      end
+    elsif self.is_a? Hash
+      for key in self.keys
+        yield(self[key],key)
+      end
     end
     self
   end
 
   def my_select
-    if block_given?
       res = []
-      self.my_each { |x| res << x if yield(x) }
+      self.my_each { |val, key| res << val if yield(val, key) }
       res
-    end
   end
 
   def my_all?
-    if block_given?
-      self.my_each { |x| return false if !yield(x) }
+      self.my_each { |val, key| return false if !yield(val, key) }
       true
-    end
   end
   
   def my_any?(proc=nil)
     if proc
-      self.my_each {|x| return true if proc.call(x)}
+      self.my_each {|val, key| return true if proc.call(val, key)}
     elsif block_given?
-      self.my_each { |x| return true if yield(x) }
+      self.my_each { |val, key| return true if yield(val, key) }
     end
     false 
   end

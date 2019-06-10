@@ -16,11 +16,10 @@ RSpec.describe Enumerable do
 
     it "work with hash's keys" do
       keys = []
-      hash2.my_each{|k, v| keys << k }
+      hash2.my_each{|v, k| keys << k }
       expect(keys).to eql(hash2.keys)
     end
-
-    
+  
   end
 
   describe "#my_each_with_index" do
@@ -28,10 +27,16 @@ RSpec.describe Enumerable do
       expect(array2.my_each_with_index{|x, index| x = x*2 }).to eql(array2)
     end
 
-    it "return index of an array" do
+    it "return array's index" do
       index = []
       array2.my_each_with_index{|x, i| index << i}
       expect(index).to eql([0,1,2,3,4])
+    end
+
+    it "work with hash's keys" do
+      keys = []
+      hash1.my_each{|v, k| keys << k }
+      expect(keys).to eql(hash1.keys)
     end
 
   end
@@ -41,10 +46,18 @@ RSpec.describe Enumerable do
       expect(array2.my_select{|x| x % 2 == 0}).to eql([6, 8, 10])
     end
 
+    it "return numbers bigger than 8" do
+      expect(array2.my_select{|x| x > 8}).to eql([9, 10])
+    end
 
     it "get empty array if empty block given" do
       expect(array1.my_select{}).to eql([])
     end
+
+    it "return key equal to c value in a hash" do
+      expect(hash1.my_select{|val, key| key == :c}).to eql([3])
+    end
+    
   end
 
   describe "#my_all?" do
@@ -52,9 +65,9 @@ RSpec.describe Enumerable do
       expect(array1.my_all?{|x| x > 0}).to be true
     end
 
-    # it "work with hash return true if all value's size bigger than 2" do
-    #   expect(hash2.my_all?{|key, value| value.size > 2}).to be true
-    # end
+    it "work with hase" do
+      expect(hash2.my_all?{ |value, key| value.size > 5}).to be false
+    end
 
   end
 
@@ -63,8 +76,8 @@ RSpec.describe Enumerable do
       expect(array1.my_any?{|x| x>5}).to be false
     end
 
-    it "return true if one of them equal 4" do
-      expect(array1.my_any?{|x| x == 4}).to be true
+    it "return true if one of value size bigger than 4 in a hash" do
+      expect(hash2.my_any?{|val, key| val.size > 4}).to be true
     end
 
     it "return true by using block" do
