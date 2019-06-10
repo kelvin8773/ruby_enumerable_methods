@@ -7,9 +7,6 @@ RSpec.describe Enumerable do
   let(:hash1) {{a:1, b:2, c:3}}
   let(:hash2) {{a:"Hello", b:"Hey", c:"Goodbye"}}
 
-
-  let(:block1) {proc {|x| x*x }} 
-  let(:block2) {proc {|x| x>18 }} 
   let(:proc1) { proc {|x| x>=10 }}
 
   describe "#my_each" do
@@ -17,13 +14,13 @@ RSpec.describe Enumerable do
       expect(array1.my_each{|x| x}).to eql(array1)
     end
 
-    it "return an hash itself" do
-      expect(hash1.my_each{|k, v| k}).to eql(hash1)
+    it "work with hash's keys" do
+      keys = []
+      hash2.my_each{|k, v| keys << k }
+      expect(keys).to eql(hash2.keys)
     end
 
-    it "take block return array itself" do
-      expect(array1.my_each{block1}).to eql(array1)
-    end
+    
   end
 
   describe "#my_each_with_index" do
