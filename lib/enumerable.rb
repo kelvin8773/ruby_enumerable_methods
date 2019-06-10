@@ -1,4 +1,3 @@
-
 module Enumerable
   def my_each
     for i in 0..self.size-1
@@ -8,10 +7,11 @@ module Enumerable
   end
 
   def my_each_with_index
+    res = []
     for i in 0..self.size-1
-      yield(self[i], i)
+      res << yield(self[i], i)
     end
-    self  
+    res
   end
 
   def my_select
@@ -65,12 +65,12 @@ module Enumerable
 
 end
 
-
-
 def muptiply_els(arr)
   arr.my_inject(1){|product, n| product * n}
 end
 
-p muptiply_els([2, 4, 5])            # => 40
+# p [1, 2, 3].my_each{|x| x = 2} 
+
+# p muptiply_els([2, 4, 5])            # => 40
 
 
