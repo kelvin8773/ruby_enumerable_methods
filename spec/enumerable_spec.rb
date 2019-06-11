@@ -10,6 +10,7 @@ RSpec.describe Enumerable do
   
   let(:proc1) { proc {|x| x>=10 }}
   let(:proc2) { proc {|x| x*3 }}
+  let(:proc3) { proc {|res, val| res += val*3}}
 
   describe "#my_each" do
     it "return an array itself" do
@@ -134,8 +135,26 @@ RSpec.describe Enumerable do
   end
 
   describe "#my_inject" do
-  
+    it "return sum of array" do
+      expect(array1.my_inject{|result, val| result += val }).to eql(15)
+    end
 
+    it "return products of an array by use muptiply_els" do
+      expect(muptiply_els(array1)).to eql(120)
+    end
+
+    it "return products of an array" do
+      expect(array1.my_inject(1){|product, val| product * val}).to eql(120)
+    end
+
+    it "return sum of hash value with inital value of 10" do
+      expect(hash1.my_inject(10){|sum, val, key| sum += val}).to eql(16)
+    end
+
+    it "return sum of array in 3 times by use proc" do
+      expect(array1.my_inject(0,proc3)).to eql(45)
+      expect(array2.my_inject(0,proc3)).to eql(120)
+    end
 
   end
 

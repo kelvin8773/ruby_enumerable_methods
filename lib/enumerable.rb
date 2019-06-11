@@ -71,14 +71,18 @@ module Enumerable
     result = []
     if proc
       self.my_each{|val, key| result << proc.call(val, key)}
-    else 
+    elsif block_given? 
       self.my_each{|val, key| result << yield(val, key)}
     end
     result  
   end
 
-  def my_inject(result=0)
-    self.my_each{|x| result = yield(result, x) }
+  def my_inject(result=0, proc=nil)
+    if proc
+      self.my_each{|val,key| result = proc.call(result,val, key)}
+    elsif block_given?
+      self.my_each{|val, key| result = yield(result, val, key) }
+    end
     result
   end
 
@@ -87,10 +91,6 @@ end
 def muptiply_els(arr)
   arr.my_inject(1){|product, n| product * n}
 end
-
-# p [1, 2, 3].my_each{|x| x = 2} 
-
-# {1=>[0,1,5], 2=>[4,3,1], 3=>[2,1,8]}.each{|k, v| p v}
 
 # p muptiply_els([2, 4, 5])            # => 40
 
