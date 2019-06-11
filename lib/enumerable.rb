@@ -26,13 +26,22 @@ module Enumerable
   end
 
   def my_select
-      res = []
-      self.my_each { |val, key| res << val if yield(val, key) }
+      if self.is_a? Array
+        res = []
+        self.my_each { |val, key| res << val if yield(val, key) }
+      elsif self.is_a? Hash
+        res = Hash.new
+        self.my_each { |val, key| res[key] = val if yield(val, key) }
+      end
       res
   end
 
-  def my_all?
+  def my_all?(proc=nil)
+    if proc
+      self.my_each { |val, key| return false if !proc.call(val, key) }
+    elsif block_given?
       self.my_each { |val, key| return false if !yield(val, key) }
+    end 
       true
   end
   
@@ -68,13 +77,24 @@ module Enumerable
 
 
   def my_map(proc=nil)
-    result = []
-    if proc
-      self.my_each{|val, key| result << proc.call(val, key)}
-    elsif block_given? 
-      self.my_each{|val, key| result << yield(val, key)}
-    end
-    result  
+    
+    if self.is_a? Array    
+      result = []
+      if proc
+        self.my_each{|val, key| result << proc.call(val, key)}
+      elsif block_given? 
+        self.my_each{|val, key| result << yield(val, key)}
+      end
+      return result
+    elsif self.is_a? Hash
+      result = Hash.new
+      if proc
+        self.my_each{|val, key| result[key] = proc.call(val, key)}
+      elsif block_given? 
+        self.my_each{|val, key| result[key] = yield(val, key)}
+      end
+      return result
+    end 
   end
 
   def my_inject(result=0, proc=nil)
