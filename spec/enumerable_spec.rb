@@ -7,8 +7,9 @@ RSpec.describe Enumerable do
   let(:hash1) {{a:1, b:2, c:3}}
   let(:hash2) {{a:"Hello", b:"Hey", c:"Goodbye"}}
   
-  let(:proc1) { proc {|x| x>=10 }}
   
+  let(:proc1) { proc {|x| x>=10 }}
+  let(:proc2) { proc {|x| x*3 }}
 
   describe "#my_each" do
     it "return an array itself" do
@@ -127,9 +128,16 @@ RSpec.describe Enumerable do
       expect(hash2.my_map{|val, key| val.upcase}).to eql(["HELLO", "HEY", "GOODBYE"])
     end
 
-
+    it "return numers of array in 3 times by use proc" do
+      expect(array1.my_map(proc2)).to eql([3,6,9,12,15])
+    end
   end
 
+  describe "#my_inject" do
+  
+
+
+  end
 
 
 end
