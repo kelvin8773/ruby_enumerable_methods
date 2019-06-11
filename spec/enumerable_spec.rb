@@ -3,11 +3,12 @@ require "./lib/enumerable"
 RSpec.describe Enumerable do
   let(:array1) {[1, 2, 3, 4, 5]}
   let(:array2) {[6, 7, 8, 9, 10]}
-
+  
   let(:hash1) {{a:1, b:2, c:3}}
   let(:hash2) {{a:"Hello", b:"Hey", c:"Goodbye"}}
-
+  
   let(:proc1) { proc {|x| x>=10 }}
+  
 
   describe "#my_each" do
     it "return an array itself" do
@@ -66,7 +67,7 @@ RSpec.describe Enumerable do
     end
 
     it "work with hase" do
-      expect(hash2.my_all?{ |value, key| value.size > 5}).to be false
+      expect({a:"Hello", b:"Goodbye", c:"Sorry"}.my_all?{ |value, key| value.size >= 5}).to be true
     end
 
   end
@@ -92,9 +93,13 @@ RSpec.describe Enumerable do
       expect(array1.my_none?{|x| x < 0}).to be true
     end
 
-    # it "return true by using block" do
-    #   expect(array1.my_none?{block2}).to be true
-    # end
+    it "return true if none of my hash value below 0" do
+      expect(hash1.my_none?{|val, key| val < 0}).to be true
+    end
+
+    it "return true by using block" do
+      expect(array1.my_none?(proc1)).to be true
+    end
 
   end
 

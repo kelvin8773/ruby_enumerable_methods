@@ -45,11 +45,13 @@ module Enumerable
     false 
   end
   
-  def my_none?
-    if block_given?
-      self.my_each { |x| return false if yield(x) }
+  def my_none?(proc=nil)
+    if proc
+      self.my_each{|val, key| return false if proc.call(val, key)}
+    elsif block_given?
+      self.my_each { |val, key| return false if yield(val, key)}
+    end  
       true
-    end
   end
   
   def my_count(value=nil)
