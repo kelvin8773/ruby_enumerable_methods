@@ -163,6 +163,17 @@ Finished in 0.01882 seconds (files took 0.09676 seconds to load)
 * [RSpec Unit Test from Odin Project](https://www.theodinproject.com/courses/ruby-programming/lessons/introduction-to-rspec)
 
 * [RSpec Beginners Guide](http://testing-for-beginners.rubymonstas.org/rspec.html)
+or simply [Testing for Beginner Guide](http://testing-for-beginners.rubymonstas.org/index.html)
+
+* [Matches in RSpec](https://relishapp.com/rspec/rspec-expectations/v/3-7/docs/built-in-matchers/equality-matchers)
+
+* [Better RSpec](http://www.betterspecs.org/)
+
+* [RSpec Cheatsheet](http://www.anchor.com.au/wp-content/uploads/rspec_cheatsheet_attributed.pdf)
+
+
+
+
 
 
 
