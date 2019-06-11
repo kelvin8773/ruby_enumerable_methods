@@ -54,12 +54,12 @@ module Enumerable
       true
   end
   
-  def my_count(value=nil)
+  def my_count(test_value=nil)
     res = 0
-    if value
-      self.my_each { |x| res +=1 if x == value }
+    if test_value
+      self.my_each { |val, key| res +=1 if val == test_value  }
     elsif block_given?
-      self.my_each { |x| res +=1 if yield(x) }
+      self.my_each { |val, key| res +=1 if yield(val) }
     else
       res = self.size
     end  

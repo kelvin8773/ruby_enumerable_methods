@@ -72,7 +72,7 @@ RSpec.describe Enumerable do
 
   end
 
-  describe "my_any?" do
+  describe "#my_any?" do
     it "return false if one of them bigger than 5" do
       expect(array1.my_any?{|x| x>5}).to be false
     end
@@ -87,7 +87,7 @@ RSpec.describe Enumerable do
 
   end
 
-  describe "my_none?" do
+  describe "#my_none?" do
 
     it "return true if none of them are smaller then zero" do
       expect(array1.my_none?{|x| x < 0}).to be true
@@ -99,6 +99,21 @@ RSpec.describe Enumerable do
 
     it "return true by using block" do
       expect(array1.my_none?(proc1)).to be true
+    end
+
+  end
+
+  describe "#my_count" do
+    it "return count if value equal to 6" do
+      expect(array2.my_count(6)).to eql(1)
+    end
+
+    it "return count if condition fulfill" do
+      expect(array2.my_count{|x| x>6}).to eql(4)
+    end
+
+    it "return count itself" do
+      expect(hash1.my_count).to eql(3)
     end
 
   end
