@@ -32,7 +32,7 @@ RSpec.describe Enumerable do
 
     it "return array's index" do
       index = []
-      array2.my_each_with_index{|x, i| index << i}
+      array2.my_each_with_index{|val, i| index << i}
       expect(index).to eql([0,1,2,3,4])
     end
 
@@ -57,8 +57,8 @@ RSpec.describe Enumerable do
       expect(array1.my_select{}).to eql([])
     end
 
-    it "return key equal to c value in a hash" do
-      expect(hash1.my_select{|val, key| key == :c}).to eql([3])
+    it "return value bigger than 1 in a hash" do
+      expect(hash1.my_select{|val, key| val > 1}).to eql({b:2, c:3})
     end
     
   end
@@ -68,8 +68,12 @@ RSpec.describe Enumerable do
       expect(array1.my_all?{|x| x > 0}).to be true
     end
 
-    it "work with hase" do
+    it "check value size with hase" do
       expect({a:"Hello", b:"Goodbye", c:"Sorry"}.my_all?{ |value, key| value.size >= 5}).to be true
+    end
+
+    it "check if all bigger than 10 by using proc" do
+      expect(array2.my_all?(proc1)).to be false
     end
 
   end
@@ -83,7 +87,7 @@ RSpec.describe Enumerable do
       expect(hash2.my_any?{|val, key| val.size > 4}).to be true
     end
 
-    it "return true by using block" do
+    it "check if any bigger than 10 by using block" do
       expect(array2.my_any?(proc1)).to be true
     end
 
@@ -126,7 +130,7 @@ RSpec.describe Enumerable do
     end
 
     it "return uppercase with string of hash" do
-      expect(hash2.my_map{|val, key| val.upcase}).to eql(["HELLO", "HEY", "GOODBYE"])
+      expect(hash2.my_map{|val, key| val.upcase}).to eql({a:"HELLO", b:"HEY", c:"GOODBYE"})
     end
 
     it "return numers of array in 3 times by use proc" do
