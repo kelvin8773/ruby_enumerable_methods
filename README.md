@@ -149,11 +149,11 @@ my_proc = Proc.new({|res, val| res += val*3})
 Result should be sth like below: 
 
 ```bash
-➜  ruby_enumerable_methods git:(unit-test) ✗ rspec
-............................
+➜  ruby_enumerable_methods git:(development) rspec
+.............................
 
-Finished in 0.01839 seconds (files took 0.11471 seconds to load)
-28 examples, 0 failures
+Finished in 0.01882 seconds (files took 0.09676 seconds to load)
+29 examples, 0 failures
 ```
 
 
