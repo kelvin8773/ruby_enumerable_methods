@@ -158,6 +158,5 @@ RSpec.describe Enumerable do
 
   end
 
-
 end
 
