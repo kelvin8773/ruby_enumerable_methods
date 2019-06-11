@@ -142,14 +142,15 @@ RSpec.describe Enumerable do
     it "return sum of array" do
       expect(array1.my_inject{|result, val| result += val }).to eql(15)
     end
-
+    
+    it "return products of an array" do
+      expect(array1.my_inject(1){|product, val| product * val}).to eql(120)
+    end
+    
     it "return products of an array by use muptiply_els" do
       expect(muptiply_els(array1)).to eql(120)
     end
 
-    it "return products of an array" do
-      expect(array1.my_inject(1){|product, val| product * val}).to eql(120)
-    end
 
     it "return sum of hash value with inital value of 10" do
       expect(hash1.my_inject(10){|sum, val, key| sum += val}).to eql(16)
