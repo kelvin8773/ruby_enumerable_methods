@@ -70,9 +70,9 @@ module Enumerable
   def my_map(proc=nil)
     result = []
     if proc
-      self.my_each{|x| result << proc.call(x)}
+      self.my_each{|val, key| result << proc.call(val, key)}
     else 
-      self.my_each{|x| result << yield(x)}
+      self.my_each{|val, key| result << yield(val, key)}
     end
     result  
   end

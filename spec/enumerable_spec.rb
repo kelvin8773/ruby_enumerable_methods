@@ -118,6 +118,17 @@ RSpec.describe Enumerable do
 
   end
 
+  describe "#my_map" do
+    it "return double with numbers of array" do
+      expect(array1.my_map{|x| x*2}).to eql([2,4,6,8,10])
+    end
+
+    it "return uppercase with string of hash" do
+      expect(hash2.my_map{|val, key| val.upcase}).to eql(["HELLO", "HEY", "GOODBYE"])
+    end
+
+
+  end
 
 
 
